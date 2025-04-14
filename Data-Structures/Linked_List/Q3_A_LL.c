@@ -125,9 +125,6 @@ void moveOddItemsToBack(LinkedList *ll)
             tail = oddNode;             // tail을 oddNode로 갱신
             tail->next = NULL;          // 새로운 tail의 다음은 NULL
 
-            // 사이즈는 그대로 유지 (실제 노드를 이동시킨 것이므로 insert/remove 필요 없음)
-            ll->size--;                 // remove한 셈이므로 사이즈 감소 (보정용)
-            insertNode(ll, ll->size, oddNode->item); // 값을 맨 뒤에 복사 삽입
         }
         else {
             // 현재 값이 짝수면 다음 노드로 넘어가기 전에 prev 업데이트
