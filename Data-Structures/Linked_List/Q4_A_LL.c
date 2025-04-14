@@ -86,7 +86,49 @@ int main()
 
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+    if (ll == NULL || ll->head == NULL)
+        return;
+
+    ListNode *cur = ll->head;
+    ListNode *prev = NULL;
+    ListNode *tail = NULL;
+
+    // 리스트의 현재 tail 찾기
+    while (cur != NULL) {
+        tail = cur;
+        cur = cur->next;
+    }
+
+    cur = ll->head;
+    ListNode *originalTail = tail;
+    prev = NULL;
+
+    while (cur != NULL && cur != originalTail->next) {
+
+        if (cur->item % 2 == 0) { // 짝수인 경우
+
+            ListNode *evenNode = cur;
+
+            if (cur == ll->head) {
+                ll->head = cur->next;
+                cur = ll->head;
+            } else {
+                prev->next = cur->next;
+                cur = cur->next;
+            }
+
+            // evenNode를 tail 뒤에 붙임
+            tail->next = evenNode;
+            tail = evenNode;
+            tail->next = NULL;
+
+            // size는 그대로 유지. insertNode 안 써도 됨.
+        }
+        else {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
