@@ -86,7 +86,55 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+    // 예외 처리: 리스트가 비었거나 존재하지 않을 경우 아무 작업도 하지 않음
+    if (ll == NULL || ll->head == NULL)
+        return;
+
+    ListNode *cur = ll->head;    // 현재 탐색 중인 노드 (시작은 head)
+    ListNode *prev = NULL;       // 현재 노드의 이전 노드를 추적
+    ListNode *tail = NULL;       // 리스트의 마지막 노드를 저장할 포인터
+
+    // tail을 현재 리스트의 마지막 노드로 설정하기 위한 반복문
+    while (cur != NULL) {
+        tail = cur;              // 마지막으로 본 노드를 tail로 지정
+        cur = cur->next;         // 다음 노드로 이동
+    }
+
+    // tail을 찾았으니 다시 처음부터 탐색 시작
+    cur = ll->head;
+    ListNode *originalTail = tail; // 최초 tail을 저장해서 무한 루프 방지
+    prev = NULL;                   // 초기 이전 노드 없음
+
+    // 현재 노드가 NULL이 아니고, originalTail 다음까지 순회
+    while (cur != NULL && cur != originalTail->next) {
+
+        if (cur->item % 2 != 0) { // 현재 값이 홀수인 경우
+
+            ListNode *oddNode = cur; // 옮길 노드를 따로 저장
+
+            if (cur == ll->head) {   // head가 홀수인 경우 처리
+                ll->head = cur->next; // head를 다음 노드로 이동
+                cur = ll->head;       // cur도 다음 노드로 갱신
+            } else {
+                prev->next = cur->next; // 이전 노드가 현재 노드 skip하도록 연결
+                cur = cur->next;        // 다음 노드로 이동
+            }
+
+            // oddNode를 리스트 뒤에 붙임
+            tail->next = oddNode;       // 기존 tail 다음에 oddNode를 연결
+            tail = oddNode;             // tail을 oddNode로 갱신
+            tail->next = NULL;          // 새로운 tail의 다음은 NULL
+
+            // 사이즈는 그대로 유지 (실제 노드를 이동시킨 것이므로 insert/remove 필요 없음)
+            ll->size--;                 // remove한 셈이므로 사이즈 감소 (보정용)
+            insertNode(ll, ll->size, oddNode->item); // 값을 맨 뒤에 복사 삽입
+        }
+        else {
+            // 현재 값이 짝수면 다음 노드로 넘어가기 전에 prev 업데이트
+            prev = cur;
+            cur = cur->next;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
