@@ -129,6 +129,7 @@ void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
     ll2->head = cur2;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll){
