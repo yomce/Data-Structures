@@ -102,7 +102,25 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+    // 초기화: 노드가 없거나 리스트가 비어있으면 아무 작업도 하지 않음
+    if (ll == NULL || ll->head == NULL)
+        return;
+
+    int mid = (ll->size + 1) / 2; // 앞 리스트는 더 많도록 나누기 (홀수일 때 앞이 하나 많음)
+    ListNode *cur = ll->head;    // 현재 노드를 head부터 시작
+    int i;
+
+    // 앞 리스트 구성
+    for (i = 0; i < mid; i++) {
+        insertNode(resultFrontList, resultFrontList->size, cur->item); // 현재 값을 앞 리스트에 삽입
+        cur = cur->next; // 다음 노드로 이동
+    }
+
+    // 뒷 리스트 구성
+    while (cur != NULL) {
+        insertNode(resultBackList, resultBackList->size, cur->item); // 나머지 값을 뒤 리스트에 삽입
+        cur = cur->next; // 다음 노드로 이동
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
