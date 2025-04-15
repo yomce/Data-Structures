@@ -90,30 +90,32 @@ int main()
 
 int insertSortedLL(LinkedList *ll, int item)
 {
+    // 리스트가 유효하지 않으면 종료
     if (ll == NULL) return -1;
 
-    ListNode *cur = ll->head;
-    int index = 0;
+    ListNode *cur = ll->head; // 리스트의 첫 노드부터 순회 시작
+    int index = 0;            // 삽입할 위치를 저장할 인덱스
 
-    // 중복 확인 및 삽입 위치 찾기
+    // 삽입 위치 찾기 (중복 여부도 확인)
     while (cur != NULL) {
         if (cur->item == item) {
-            return -1;  // 중복
-        } else if (cur->item > item) {
-            break;  // 삽입 위치 찾음
+            return -1;  // 현재 노드 값이 삽입하려는 값과 같다면 중복 -> 실패
         }
-        cur = cur->next;
-        index++;
+		else if (cur->item > item) {
+            break;  // 삽입할 위치를 찾음: 현재 노드보다 작아야 그 앞에 삽입됨
+        }
+        cur = cur->next; // 다음 노드로 이동
+        index++;         // 인덱스 증가
     }
 
-    // insertNode는 index > size면 실패하므로 보정
+    // 예외적으로 index가 size보다 클 수 있는 경우 방어적 보정
     if (index > ll->size) index = ll->size;
 
-    // 삽입
+    // 삽입 시도: insertNode는 성공 시 0을 반환
     if (insertNode(ll, index, item) == 0)
-        return index;
+        return index;  // 정상적으로 삽입되었을 경우 삽입 위치 반환
     else
-        return -1;  // insert 실패
+        return -1;     // 삽입 실패 시 -1 반환
 }
 
 
