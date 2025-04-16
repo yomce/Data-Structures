@@ -95,9 +95,17 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 int maxHeight(BTNode *node)
-
 {
-    /* add your code here */
+    // 기저 조건: 노드가 NULL이면 높이는 0
+    if (node == NULL)
+        return 0;
+
+    // 왼쪽과 오른쪽 서브트리의 높이를 재귀적으로 계산
+    int leftHeight = maxHeight(node->left);
+    int rightHeight = maxHeight(node->right);
+
+    // 더 큰 서브트리 높이에 현재 노드를 더해 반환
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
