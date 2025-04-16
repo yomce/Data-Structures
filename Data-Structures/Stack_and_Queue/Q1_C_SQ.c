@@ -116,12 +116,39 @@ int main()
 
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
-	/* add your code here */
+    // 연결 리스트나 큐가 존재하지 않으면 함수 종료
+    if (ll == NULL || q == NULL)
+        return;
+
+    // 연결리스트의 현재 노드를 가리키는 포인터
+    ListNode *cur = ll->head;
+
+    // 연결리스트를 순회하며 큐에 하나씩 삽입
+    while (cur != NULL) {
+        enqueue(q, cur->item);  // 현재 노드의 값을 큐에 삽입
+        cur = cur->next;        // 다음 노드로 이동
+    }
 }
 
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+    // 큐가 비었거나 존재하지 않으면 함수 종료
+    if (q == NULL || isEmptyQueue(q))
+        return;
+
+    // 큐의 현재 사이즈를 저장 (순회는 초기 크기만큼만 해야 함)
+    int size = q->ll.size;
+    int i, val;
+
+    // 큐의 현재 요소들을 모두 한 번씩 꺼내본다
+    for (i = 0; i < size; i++) {
+        val = dequeue(q);         // 큐의 앞에서 값을 하나 꺼냄
+
+        if (val % 2 == 0) {       // 짝수일 경우
+            enqueue(q, val);      // 다시 큐에 넣음
+        }
+        // 홀수는 다시 넣지 않으므로 자동으로 제거되는 셈
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
