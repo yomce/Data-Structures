@@ -111,7 +111,18 @@ int main()
 
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+    // 예외 처리: 스택이 NULL이거나 비어있으면 종료
+    if (s == NULL || isEmptyStack(s))
+        return;
+
+    // 스택이 비어 있지 않고, top 값이 value와 다를 동안 반복
+    while (!isEmptyStack(s) && peek(s) != value)
+    {
+        pop(s); // top 제거
+    }
+
+    // value를 만나면 루프가 종료되고, 그 값이 top이 됨
+    // value가 없으면 스택이 비워짐
 }
 
 //////////////////////////////////////////////////////////////////////////////////
