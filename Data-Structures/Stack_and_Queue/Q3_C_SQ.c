@@ -103,7 +103,45 @@ int main()
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+    // 예외 처리: 스택이 NULL이거나 비어있으면 true로 간주
+    if (s == NULL || isEmptyStack(s))
+        return 1;
+
+	// 1. 스택 사이즈가 홀수면 바로 false 반환
+    if (s->ll.size % 2 != 0)
+        return 0;
+
+    Stack tempStack;                        // 임시 스택 생성
+    tempStack.ll.head = NULL;
+    tempStack.ll.size = 0;
+    tempStack.ll.tail = NULL;
+
+    int result = 1;                         // 결과: 기본적으로 true로 설정
+
+	// 2. 두 개씩 pop해서 검사
+    while (!isEmptyStack(s))
+    {
+        int first = pop(s);                // 첫 번째 숫자 pop
+        push(&tempStack, first);           // 임시 스택에 보관
+
+        if (!isEmptyStack(s))              // 두 번째 숫자가 있을 경우
+        {
+            int second = pop(s);           // 두 번째 숫자 pop
+            push(&tempStack, second);      // 임시 스택에 보관
+
+            // 두 수의 차이가 1이 아니면 pairwise consecutive 아님
+            if (abs(first - second) != 1)
+                result = 0;                // false 설정 (끝까지 검사 계속함)
+        }
+    }
+
+    // 3. 스택 복원: tempStack → 원래 스택
+    while (!isEmptyStack(&tempStack))
+    {
+        push(s, pop(&tempStack));
+    }
+
+    return result;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
