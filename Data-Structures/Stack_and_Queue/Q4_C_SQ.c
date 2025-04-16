@@ -112,7 +112,27 @@ int main()
 
 void reverse(Queue *q)
 {
-/* add your code here */
+    // 예외 처리: 큐가 NULL이거나 비어있으면 아무 작업도 하지 않음
+    if (q == NULL || isEmptyQueue(q))
+        return;
+
+    // 1. 큐의 모든 데이터를 임시 스택에 옮기기
+    Stack tempStack;
+    tempStack.ll.head = NULL;
+    tempStack.ll.size = 0;
+    tempStack.ll.tail = NULL;
+
+    // 큐에서 dequeue 하면서 스택에 push
+    while (!isEmptyQueue(q)) {
+        int val = dequeue(q);      // 큐의 front에서 꺼냄
+        push(&tempStack, val);     // 스택 top에 넣음 (뒤에서부터 쌓이게 됨)
+    }
+
+    // 2. 스택의 모든 데이터를 다시 큐로 복원 (역순으로 들어감)
+    while (!isEmptyStack(&tempStack)) {
+        int val = pop(&tempStack);  // 스택의 top에서 꺼냄
+        enqueue(q, val);            // 큐의 rear에 삽입
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
