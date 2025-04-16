@@ -104,7 +104,39 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+    Stack s;
+    s.ll.head = NULL;
+    s.ll.size = 0;
+
+    int i = 0;
+    char ch;
+
+    while ((ch = expression[i]) != '\0') {
+        if (ch == '(' || ch == '[' || ch == '{') {
+            push(&s, ch);  // 열린 괄호는 스택에 push
+        } else if (ch == ')' || ch == ']' || ch == '}') {
+            if (isEmptyStack(&s)) {
+                return 1;  // 스택이 비었는데 닫힌 괄호가 나오면 짝 안 맞음
+            }
+
+            char open = pop(&s);  // 가장 최근 열린 괄호 꺼냄
+
+            // 짝이 맞는지 확인
+            if ((ch == ')' && open != '(') ||
+                (ch == ']' && open != '[') ||
+                (ch == '}' && open != '{')) {
+                return 1;  // 괄호가 짝이 맞지 않음
+            }
+        }
+        i++;
+    }
+
+    // 다 끝났는데도 스택에 뭔가 남아 있으면 열리고 닫히지 않은 괄호가 있음
+    if (!isEmptyStack(&s)) {
+        return 1;
+    }
+
+    return 0; // 모두 짝이 맞음
 }
 
 ////////////////////////////////////////////////////////////
