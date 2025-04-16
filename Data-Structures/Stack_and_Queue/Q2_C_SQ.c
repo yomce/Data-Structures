@@ -113,12 +113,46 @@ int main()
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-    /* add your code here */
+    // 리스트나 스택이 NULL이면 아무 작업도 하지 않음
+    if (ll == NULL || s == NULL)
+        return;
+
+	// 기존 스택 비우기
+    removeAllItemsFromStack(s);
+
+    ListNode *cur = ll->head;
+    while (cur != NULL) {
+        push(s, cur->item);     // 앞에서부터 push
+        cur = cur->next;
+    }
+
 }
 
 void removeEvenValues(Stack *s)
 {
-	/* add your code here */
+    // 예외 처리: 스택이 NULL이거나 비어있으면 함수 종료
+    if (s == NULL || isEmptyStack(s))
+        return;
+
+    // 짝수를 제거하고, 홀수만 임시로 저장할 스택 생성
+    Stack tempStack;
+    tempStack.ll.head = NULL;
+    tempStack.ll.size = 0;
+
+    // 원래 스택에서 모든 값 꺼냄
+    while (!isEmptyStack(s)) {
+        int val = pop(s);            // 하나 꺼냄
+        if (val % 2 != 0) {          // 홀수라면
+            push(&tempStack, val);   // 임시 스택에 저장
+        }
+        // 짝수면 아무 처리도 하지 않고 버림
+    }
+
+    // tempStack에 들어 있는 값들을 다시 원래 스택에 push해서 복원
+    while (!isEmptyStack(&tempStack)) {
+        int val = pop(&tempStack);   // 다시 꺼냄
+        push(s, val);                // 원래 스택에 넣음
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
