@@ -109,7 +109,18 @@ int main()
 
 void recursiveReverse(Queue *q)
 {
-/* add your code here */
+    // 1. 예외 처리: 큐가 NULL이거나 비어있다면 아무 작업도 하지 않음
+    if (q == NULL || isEmptyQueue(q))
+        return;
+
+    // 2. 큐의 front에서 하나 꺼냄
+    int val = dequeue(q);
+
+    // 3. 나머지 큐에 대해 재귀적으로 호출 → 뒤쪽부터 처리됨
+    recursiveReverse(q);
+
+    // 4. 꺼낸 값을 큐의 rear에 다시 추가 → 뒤집어진 순서로 삽입됨
+    enqueue(q, val);
 }
 
 //////////////////////////////////////////////////////////////////
